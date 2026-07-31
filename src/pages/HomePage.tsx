@@ -43,17 +43,17 @@ function HomePage() {
         >
           <div className="text-4xl mb-4">📐</div>
           <h3 className="text-xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors">
-            平面図自動生成
+            平面図作成
           </h3>
           <p className="text-gray-600 mb-4">
-            複数の室内写真から壁面を検出し、
-            大まかな平面図を自動的に作成します。
+            テンプレートパーツを配置して
+            住宅の平面図を作成します。
           </p>
           <ul className="text-sm text-gray-500 space-y-1">
-            <li>✓ 複数写真から壁面を自動検出</li>
-            <li>✓ 大まかな間取り図を生成</li>
-            <li>✓ 壁の編集・調整が可能</li>
-            <li>✓ PDF/画像で書き出し</li>
+            <li>✓ 部屋・廊下・階段などのパーツ配置</li>
+            <li>✓ ドア・窓・設備を自由に配置</li>
+            <li>✓ 手すり位置も平面図上に表示</li>
+            <li>✓ PNG画像で書き出し</li>
           </ul>
         </button>
       </div>

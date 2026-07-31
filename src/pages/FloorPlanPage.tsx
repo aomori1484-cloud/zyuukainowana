@@ -339,16 +339,15 @@ function FloorPlanPage() {
   }, [items, selectedId, canvasSize, gridSize]);
 
   // Mouse handlers
-  const getCanvasPos = (e: React.MouseEvent) => {
+  const getCanvasPos = (e: React.MouseEvent | React.Touch) => {
     const canvas = canvasRef.current;
     if (!canvas) return { x: 0, y: 0 };
     const rect = canvas.getBoundingClientRect();
     return { x: e.clientX - rect.left, y: e.clientY - rect.top };
   };
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    const pos = getCanvasPos(e);
-    // Find clicked item (reverse order = top first)
+  const handlePointerDown = (x: number, y: number) => {
+    const pos = { x, y };
     for (let i = items.length - 1; i >= 0; i--) {
       const item = items[i];
       if (pos.x >= item.x && pos.x <= item.x + item.width &&
@@ -361,22 +360,61 @@ function FloorPlanPage() {
     setSelectedId(null);
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handlePointerMove = (x: number, y: number) => {
     if (!dragging) return;
-    const pos = getCanvasPos(e);
     setItems((prev) =>
       prev.map((item) => {
         if (item.id !== dragging.id) return item;
         return {
           ...item,
-          x: snap(pos.x - dragging.offsetX),
-          y: snap(pos.y - dragging.offsetY),
+          x: snap(x - dragging.offsetX),
+          y: snap(y - dragging.offsetY),
         };
       })
     );
   };
 
+  const handleMouseDown = (e: React.MouseEvent) => {
+    const pos = getCanvasPos(e);
+    handlePointerDown(pos.x, pos.y);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!dragging) return;
+    const pos = getCanvasPos(e);
+    handlePointerMove(pos.x, pos.y);
+  };
+
   const handleMouseUp = () => setDragging(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    e.preventDefault();
+    if (e.touches.length === 1) {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      const x = e.touches[0].clientX - rect.left;
+      const y = e.touches[0].clientY - rect.top;
+      handlePointerDown(x, y);
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    e.preventDefault();
+    if (e.touches.length === 1 && dragging) {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      const x = e.touches[0].clientX - rect.left;
+      const y = e.touches[0].clientY - rect.top;
+      handlePointerMove(x, y);
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    e.preventDefault();
+    setDragging(null);
+  };
 
   // Export
   const handleExportPNG = () => {
@@ -400,15 +438,18 @@ function FloorPlanPage() {
       <div className="grid lg:grid-cols-4 gap-6">
         {/* Canvas */}
         <div className="lg:col-span-3">
-          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div className="bg-white rounded-xl border border-gray-200 overflow-x-auto">
             <canvas
               ref={canvasRef}
               onMouseDown={handleMouseDown}
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
               onMouseLeave={handleMouseUp}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
               className="cursor-crosshair block"
-              style={{ width: canvasSize.width, height: canvasSize.height }}
+              style={{ width: canvasSize.width, height: canvasSize.height, touchAction: 'none' }}
             />
           </div>
         </div>

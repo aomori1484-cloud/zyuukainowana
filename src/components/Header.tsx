@@ -33,7 +33,7 @@ function Header() {
                 : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
-            📐 平面図生成
+            📐 平面図作成
           </button>
         </nav>
       </div>
