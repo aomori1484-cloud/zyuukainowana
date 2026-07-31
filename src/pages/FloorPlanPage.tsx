@@ -428,12 +428,46 @@ function FloorPlanPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
-      <div className="mb-6">
+      <div className="mb-4">
         <h2 className="text-2xl font-bold text-gray-800 mb-2">📐 平面図作成</h2>
         <p className="text-gray-600">
           テンプレートを配置して平面図を作成します
         </p>
       </div>
+
+      {/* Layer list (top) */}
+      {items.length > 0 && (
+        <div className="mb-4 bg-white rounded-xl border border-gray-200 p-3">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="font-bold text-gray-800 text-sm">配置パーツ一覧（{items.length}件）</h3>
+            {selectedId && (
+              <div className="flex gap-2">
+                <button onClick={rotateSelected} className="text-xs bg-orange-500 text-white px-2 py-1 rounded">
+                  🔄 回転
+                </button>
+                <button onClick={deleteSelected} className="text-xs bg-red-500 text-white px-2 py-1 rounded">
+                  🗑️ 削除
+                </button>
+              </div>
+            )}
+          </div>
+          <div className="flex flex-wrap gap-1">
+            {items.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setSelectedId(selectedId === item.id ? null : item.id)}
+                className={`text-xs px-2 py-1 rounded-lg transition-colors ${
+                  selectedId === item.id
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {TEMPLATES.find((t) => t.type === item.type)?.icon} {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="grid lg:grid-cols-4 gap-6">
         {/* Canvas */}
