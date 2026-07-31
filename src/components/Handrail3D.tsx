@@ -63,12 +63,12 @@ function HandrailMesh({ config, isSelected, onClick }: HandrailMeshProps) {
           </mesh>
           {[-length / 2 + 0.02, length / 2 - 0.02].map((x, i) => (
             <group key={i} position={[x, 0, 0]}>
-              <mesh position={[0, -0.05, 0]}>
+              <mesh position={[0, 0, -0.05]} rotation={[Math.PI / 2, 0, 0]}>
                 <cylinderGeometry args={[radius * 0.8, radius * 0.8, 0.1, 12]} />
                 <meshStandardMaterial color="#888888" metalness={0.7} roughness={0.3} />
               </mesh>
-              <mesh position={[0, -0.1, 0]}>
-                <boxGeometry args={[0.06, 0.01, 0.06]} />
+              <mesh position={[0, 0, -0.1]}>
+                <boxGeometry args={[0.06, 0.06, 0.01]} />
                 <meshStandardMaterial color="#666666" metalness={0.5} roughness={0.4} />
               </mesh>
             </group>
@@ -111,23 +111,23 @@ function HandrailMesh({ config, isSelected, onClick }: HandrailMeshProps) {
           </mesh>
           {/* Bracket at horizontal bar end (right) */}
           <group position={[length * 0.55, 0, 0]}>
-            <mesh position={[0, -0.05, 0]}>
+            <mesh position={[0, 0, -0.05]} rotation={[Math.PI / 2, 0, 0]}>
               <cylinderGeometry args={[radius * 0.8, radius * 0.8, 0.1, 12]} />
               <meshStandardMaterial color="#888888" metalness={0.7} roughness={0.3} />
             </mesh>
-            <mesh position={[0, -0.1, 0]}>
-              <boxGeometry args={[0.06, 0.01, 0.06]} />
+            <mesh position={[0, 0, -0.1]}>
+              <boxGeometry args={[0.06, 0.06, 0.01]} />
               <meshStandardMaterial color="#666666" metalness={0.5} roughness={0.4} />
             </mesh>
           </group>
           {/* Bracket at vertical bar top */}
           <group position={[-length * 0.05, length * 0.4, 0]}>
-            <mesh position={[0.05, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+            <mesh position={[0, 0, -0.05]} rotation={[Math.PI / 2, 0, 0]}>
               <cylinderGeometry args={[radius * 0.8, radius * 0.8, 0.1, 12]} />
               <meshStandardMaterial color="#888888" metalness={0.7} roughness={0.3} />
             </mesh>
-            <mesh position={[0.1, 0, 0]}>
-              <boxGeometry args={[0.01, 0.06, 0.06]} />
+            <mesh position={[0, 0, -0.1]}>
+              <boxGeometry args={[0.06, 0.06, 0.01]} />
               <meshStandardMaterial color="#666666" metalness={0.5} roughness={0.4} />
             </mesh>
           </group>
