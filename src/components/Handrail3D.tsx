@@ -78,6 +78,7 @@ function HandrailMesh({ config, isSelected, onClick }: HandrailMeshProps) {
 
       {config.type === 'L-shaped' && (
         <>
+          {/* Horizontal bar */}
           <mesh rotation={[0, 0, Math.PI / 2]} position={[length * 0.25, 0, 0]}>
             <cylinderGeometry args={[radius, radius, length * 0.6, 16]} />
             <meshStandardMaterial
@@ -90,6 +91,7 @@ function HandrailMesh({ config, isSelected, onClick }: HandrailMeshProps) {
               emissiveIntensity={isSelected ? 0.5 : 0}
             />
           </mesh>
+          {/* Vertical bar */}
           <mesh position={[-length * 0.05, length * 0.2, 0]}>
             <cylinderGeometry args={[radius, radius, length * 0.4, 16]} />
             <meshStandardMaterial
@@ -102,10 +104,33 @@ function HandrailMesh({ config, isSelected, onClick }: HandrailMeshProps) {
               emissiveIntensity={isSelected ? 0.5 : 0}
             />
           </mesh>
+          {/* Corner joint */}
           <mesh position={[-length * 0.05, 0, 0]}>
             <sphereGeometry args={[radius * 1.2, 16, 16]} />
             <meshStandardMaterial color={config.color} metalness={0.2} roughness={0.7} />
           </mesh>
+          {/* Bracket at horizontal bar end (right) */}
+          <group position={[length * 0.55, 0, 0]}>
+            <mesh position={[0, -0.05, 0]}>
+              <cylinderGeometry args={[radius * 0.8, radius * 0.8, 0.1, 12]} />
+              <meshStandardMaterial color="#888888" metalness={0.7} roughness={0.3} />
+            </mesh>
+            <mesh position={[0, -0.1, 0]}>
+              <boxGeometry args={[0.06, 0.01, 0.06]} />
+              <meshStandardMaterial color="#666666" metalness={0.5} roughness={0.4} />
+            </mesh>
+          </group>
+          {/* Bracket at vertical bar top */}
+          <group position={[-length * 0.05, length * 0.4, 0]}>
+            <mesh position={[0.05, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+              <cylinderGeometry args={[radius * 0.8, radius * 0.8, 0.1, 12]} />
+              <meshStandardMaterial color="#888888" metalness={0.7} roughness={0.3} />
+            </mesh>
+            <mesh position={[0.1, 0, 0]}>
+              <boxGeometry args={[0.01, 0.06, 0.06]} />
+              <meshStandardMaterial color="#666666" metalness={0.5} roughness={0.4} />
+            </mesh>
+          </group>
         </>
       )}
 
